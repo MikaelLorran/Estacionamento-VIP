@@ -18,10 +18,10 @@ export default function ReservaList() {
 	}, []);
 
 	return (
-		<div>
-			<h2>Reservas Feitas</h2>
-			<table border="1" cellPadding="5">
-				<thead>
+		<div className="container mt-5">
+			<h2 className="mb-4">Minhas Reservas</h2>
+			<table className="table table-bordered table-striped">
+				<thead className="table-light">
 					<tr>
 						<th>ID</th>
 						<th>Usuário</th>

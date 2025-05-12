@@ -43,44 +43,62 @@ export default function Reserve() {
 	};
 
 	return (
-		<form onSubmit={handleReserva}>
-			<h2>Reservar Vaga</h2>
+		<form
+			onSubmit={handleReserva}
+			className="container mt-5"
+			style={{ maxWidth: "500px" }}
+		>
+			<h2 className="mb-4 text-center">Reservar Vaga</h2>
 
-			<select
-				value={vaga_id}
-				onChange={(e) => setVagaId(e.target.value)}
-				required
-			>
-				<option value="">Selecione uma vaga</option>
-				{vagas.map((vaga) => (
-					<option key={vaga.id} value={vaga.id}>
-						{vaga.identificador} - {vaga.descricao}
-					</option>
-				))}
-			</select>
+			<div className="mb-3">
+				<select
+					className="form-select"
+					value={vaga_id}
+					onChange={(e) => setVagaId(e.target.value)}
+					required
+				>
+					<option value="">Selecione uma vaga</option>
+					{vagas.map((vaga) => (
+						<option key={vaga.id} value={vaga.id}>
+							{vaga.identificador} - {vaga.descricao}
+						</option>
+					))}
+				</select>
+			</div>
 
-			<input
-				type="date"
-				value={data}
-				onChange={(e) => setData(e.target.value)}
-				required
-			/>
+			<div className="mb-3">
+				<input
+					type="date"
+					value={data}
+					onChange={(e) => setData(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
 
-			<input
-				type="time"
-				value={inicio}
-				onChange={(e) => setInicio(e.target.value)}
-				required
-			/>
+			<div className="mb-3">
+				<input
+					type="time"
+					value={inicio}
+					onChange={(e) => setInicio(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
 
-			<input
-				type="time"
-				value={fim}
-				onChange={(e) => setFim(e.target.value)}
-				required
-			/>
+			<div className="mb-3">
+				<input
+					type="time"
+					value={fim}
+					onChange={(e) => setFim(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
 
-			<button type="submit">Reservar</button>
+			<button type="submit" className="btn btn-success w-100">
+				Confirmar Reserva
+			</button>
 		</form>
 	);
 }

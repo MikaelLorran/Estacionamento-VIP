@@ -17,30 +17,49 @@ export default function Register() {
 	};
 
 	return (
-		<form onSubmit={handleRegister}>
-			<h2>Registrar</h2>
-			<input
-				type="text"
-				placeholder="Nome"
-				value={nome}
-				onChange={(e) => setNome(e.target.value)}
-				required
-			/>
-			<input
-				type="email"
-				placeholder="Email"
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-				required
-			/>
-			<input
-				type="password"
-				placeholder="Senha"
-				value={senha}
-				onChange={(e) => setSenha(e.target.value)}
-				required
-			/>
-			<button type="submit">Registrar</button>
+		<form
+			onSubmit={handleRegister}
+			className="container mt-5"
+			style={{ maxWidth: "400px" }}
+		>
+			<h2 className="mb-4 text-center">Registrar</h2>
+
+			<div className="mb-3">
+				<input
+					type="text"
+					placeholder="Nome"
+					value={nome}
+					onChange={(e) => setNome(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
+
+			<div className="mb-3">
+				<input
+					type="email"
+					placeholder="Email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
+
+			<div className="mb-3">
+				<input
+					type="password"
+					placeholder="Senha"
+					value={senha}
+					onChange={(e) => setSenha(e.target.value)}
+					className="form-control"
+					required
+				/>
+			</div>
+
+			<button type="submit" className="btn btn-success w-100">
+				Registrar
+			</button>
 		</form>
 	);
 }

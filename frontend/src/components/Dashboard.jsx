@@ -15,14 +15,29 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div>
-			<h2>Bem-vindo, {usuario?.nome}</h2>
+		<div className="container mt-5 text-center">
+			<h2 className="mb-4">Bem-vindo, {usuario?.nome}</h2>
 
-			<button onClick={() => navigate("/reservar")}>Reservar vaga</button>
-
-			<button onClick={() => navigate("/reservas")}>Ver minhas reservas</button>
-
-			<button onClick={handleLogout}>Sair</button>
+			<div
+				className="d-grid gap-3"
+				style={{ maxWidth: "300px", margin: "0 auto" }}
+			>
+				<button
+					className="btn btn-primary"
+					onClick={() => navigate("/reservar")}
+				>
+					Reservar Vaga
+				</button>
+				<button
+					className="btn btn-secondary"
+					onClick={() => navigate("/reservas")}
+				>
+					Minhas Reservas
+				</button>
+				<button className="btn btn-outline-danger" onClick={handleLogout}>
+					Sair
+				</button>
+			</div>
 		</div>
 	);
 }
