@@ -58,6 +58,26 @@ switch (true) {
         }
         break;
 
+    case str_ends_with($uri, '/vagas/gerenciar'):
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $vagaController->listarTodas();
+        }
+        break;
+
+
+    case preg_match('/\/vagas\/editar\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $vagaController->atualizar($matches[1]);
+        }
+        break;
+
+    case preg_match('/\/vagas\/excluir\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $vagaController->excluir($matches[1]);
+        }
+        break;
+
+
     case str_ends_with($uri, '/reservas'):
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservaController->listar();

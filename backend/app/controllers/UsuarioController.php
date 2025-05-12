@@ -55,7 +55,8 @@ class UsuarioController
                 'usuario' => [
                     'id' => $usuario['id'],
                     'nome' => $usuario['nome'],
-                    'email' => $usuario['email']
+                    'email' => $usuario['email'],
+                    'is_admin' => $usuario['is_admin']
                 ]
             ]);
         } else {

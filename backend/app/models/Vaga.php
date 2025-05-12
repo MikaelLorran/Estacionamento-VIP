@@ -10,12 +10,12 @@ class Vaga {
     }
 
     public function listarTodas() {
-        $sql = "SELECT * FROM vagas";
+        $sql = "SELECT * FROM vagas ORDER BY id DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function listarDisponiveis() {
         $sql = "SELECT * FROM vagas WHERE status = 'livre'";
@@ -43,5 +43,24 @@ class Vaga {
     $stmt->bindParam(':vaga_id', $vaga_id);
     return $stmt->execute();
     }
+
+    public function atualizar($id, $identificador, $descricao, $status) {
+        $sql = "UPDATE vagas SET identificador = :identificador, descricao = :descricao, status = :status WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':identificador', $identificador);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':status', $status);
+        return $stmt->execute();
+    }
+
+    public function excluir($id) {
+        $sql = "DELETE FROM vagas WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+
 
 }

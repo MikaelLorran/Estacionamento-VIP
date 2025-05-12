@@ -34,6 +34,22 @@ export default function Dashboard() {
 				>
 					Minhas Reservas
 				</button>
+				{usuario?.is_admin === 1 && (
+					<button
+						className="btn btn-warning"
+						onClick={() => navigate("/vagas/nova")}
+					>
+						Cadastrar Vaga
+					</button>
+				)}
+				{usuario?.is_admin === 1 && (
+					<button
+						className="btn btn-info"
+						onClick={() => navigate("/vagas/gerenciar")}
+					>
+						Visualizar Vagas
+					</button>
+				)}
 				<button className="btn btn-outline-danger" onClick={handleLogout}>
 					Sair
 				</button>
