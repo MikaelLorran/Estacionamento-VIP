@@ -34,6 +34,14 @@ class Vaga {
     $stmt->bindParam(':status', $status);
 
     return $stmt->execute();
-}
+
+    }
+    
+    public function ocuparVaga($vaga_id) {
+    $sql = "UPDATE vagas SET status = 'ocupada' WHERE id = :vaga_id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':vaga_id', $vaga_id);
+    return $stmt->execute();
+    }
 
 }

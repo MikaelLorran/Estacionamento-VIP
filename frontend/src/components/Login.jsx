@@ -10,7 +10,7 @@ export default function Login() {
 		try {
 			const response = await api.post("/login", { email, senha });
 			alert(`Bem-vindo, ${response.data.usuario.nome}`);
-			// Aqui você pode salvar o usuário no localStorage ou redirecionar
+			localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 		} catch (error) {
 			alert(error.response?.data?.erro || "Erro ao fazer login");
 		}

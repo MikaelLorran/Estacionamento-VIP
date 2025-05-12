@@ -27,10 +27,21 @@ class ReservaController {
         );
 
         if ($sucesso) {
-            echo json_encode(['mensagem' => 'Reserva realizada com sucesso']);
+            // Atualiza o status da vaga para "ocupada"
+            require_once __DIR__ . '/../models/Vaga.php';
+            $vagaModel = new Vaga();
+            $vagaModel->ocuparVaga($dados['vaga_id']);
+
+            echo json_encode(['mensagem' => 'Reserva realizada e vaga ocupada com sucesso']);
         } else {
             http_response_code(500);
             echo json_encode(['erro' => 'Erro ao reservar vaga']);
         }
     }
+
+    public function listar() {
+        $reservas = $this->reservaModel->listarComDetalhes();
+        echo json_encode($reservas);
+    }
+
 }

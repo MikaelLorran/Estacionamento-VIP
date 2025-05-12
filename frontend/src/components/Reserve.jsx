@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 
 export default function Reserve() {
-	const [usuario_id, setUsuarioId] = useState(""); // Ainda manual, idealmente vindo da sessão
+	const usuario = JSON.parse(localStorage.getItem("usuario"));
+	const [usuario_id] = useState(usuario?.id || "");
 	const [vaga_id, setVagaId] = useState("");
 	const [data, setData] = useState("");
 	const [inicio, setInicio] = useState("");
@@ -17,6 +18,7 @@ export default function Reserve() {
 				setVagas(response.data);
 			} catch (error) {
 				console.error("Erro ao carregar vagas:", error);
+				setVagas([]); // evita quebra de layout
 			}
 		};
 
@@ -43,14 +45,6 @@ export default function Reserve() {
 	return (
 		<form onSubmit={handleReserva}>
 			<h2>Reservar Vaga</h2>
-
-			<input
-				type="number"
-				placeholder="ID do Usuário"
-				value={usuario_id}
-				onChange={(e) => setUsuarioId(e.target.value)}
-				required
-			/>
 
 			<select
 				value={vaga_id}

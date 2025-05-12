@@ -34,13 +34,13 @@ $rota = basename($uri);
 switch (true) {
     case str_ends_with($uri, '/login'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->login();
+            $usuarioController->login();
         }
         break;
 
     case str_ends_with($uri, '/registrar'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->registrar();
+            $usuarioController->registrar();
         }
         break;
     
@@ -49,6 +49,7 @@ switch (true) {
             $reservaController->reservar();
         }
         break;
+
     case str_ends_with($uri, '/vagas'):
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $vagaController->listar();
@@ -56,6 +57,13 @@ switch (true) {
             $vagaController->cadastrar();
         }
         break;
+
+    case str_ends_with($uri, '/reservas'):
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $reservaController->listar();
+        }
+        break;
+
 
 
 

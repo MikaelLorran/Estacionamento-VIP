@@ -21,4 +21,19 @@ class Reserva {
 
         return $stmt->execute();
     }
+
+    public function listarComDetalhes() {
+        $sql = "
+            SELECT r.id, u.nome AS usuario, v.identificador AS vaga, r.data, 
+                r.horario_inicio, r.horario_fim, r.status
+            FROM reservas r
+            JOIN usuarios u ON r.usuario_id = u.id
+            JOIN vagas v ON r.vaga_id = v.id
+            ORDER BY r.data DESC, r.horario_inicio DESC
+        ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
