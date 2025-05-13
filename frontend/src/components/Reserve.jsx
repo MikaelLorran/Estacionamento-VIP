@@ -7,7 +7,6 @@ export default function Reserve() {
 	const [vaga_id, setVagaId] = useState("");
 	const [data, setData] = useState("");
 	const [inicio, setInicio] = useState("");
-	const [fim, setFim] = useState("");
 	const [vagas, setVagas] = useState([]);
 
 	// Carrega as vagas disponíveis ao carregar o componente
@@ -18,7 +17,7 @@ export default function Reserve() {
 				setVagas(response.data);
 			} catch (error) {
 				console.error("Erro ao carregar vagas:", error);
-				setVagas([]); // evita quebra de layout
+				setVagas([]);
 			}
 		};
 
@@ -34,7 +33,6 @@ export default function Reserve() {
 				vaga_id,
 				data,
 				inicio,
-				fim,
 			});
 			alert(response.data.mensagem);
 		} catch (error) {
@@ -81,16 +79,6 @@ export default function Reserve() {
 					type="time"
 					value={inicio}
 					onChange={(e) => setInicio(e.target.value)}
-					className="form-control"
-					required
-				/>
-			</div>
-
-			<div className="mb-3">
-				<input
-					type="time"
-					value={fim}
-					onChange={(e) => setFim(e.target.value)}
 					className="form-control"
 					required
 				/>

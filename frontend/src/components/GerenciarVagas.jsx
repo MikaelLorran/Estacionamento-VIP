@@ -51,7 +51,9 @@ export default function GerenciarVagas() {
 							<td>{vaga.id}</td>
 							<td>{vaga.identificador}</td>
 							<td>{vaga.descricao}</td>
-							<td>{vaga.status}</td>
+							<td>
+								{vaga.status.charAt(0).toUpperCase() + vaga.status.slice(1)}
+							</td>
 							<td className="text-center">
 								<button
 									className="btn btn-sm btn-outline-primary me-2"

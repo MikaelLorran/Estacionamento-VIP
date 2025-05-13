@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AdminRoute from "./utils/AdminRoute";
+import ProtectedRoute from "./utils/ProtectedRoute";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -8,18 +9,17 @@ import Dashboard from "./components/Dashboard";
 import Reserve from "./components/Reserve";
 import ReservaList from "./components/ReservaList";
 import CreateVaga from "./components/CreateVaga";
-import ProtectedRoute from "./utils/ProtectedRoute";
 import GerenciarVagas from "./components/GerenciarVagas";
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Navbar />
-
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
+
 				<Route
 					path="/painel"
 					element={
@@ -28,6 +28,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
 				<Route
 					path="/vagas/nova"
 					element={
@@ -36,6 +37,7 @@ function App() {
 						</AdminRoute>
 					}
 				/>
+
 				<Route
 					path="/vagas/gerenciar"
 					element={
@@ -44,6 +46,7 @@ function App() {
 						</AdminRoute>
 					}
 				/>
+
 				<Route
 					path="/reservar"
 					element={
@@ -52,19 +55,12 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
 				<Route
 					path="/reservas"
 					element={
 						<ProtectedRoute>
 							<ReservaList />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/vagas/nova"
-					element={
-						<ProtectedRoute>
-							<CreateVaga />
 						</ProtectedRoute>
 					}
 				/>

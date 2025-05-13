@@ -36,6 +36,7 @@ export default function Navbar() {
 									<span
 										className="nav-link"
 										onClick={() => navigate("/reservar")}
+										style={{ cursor: "pointer" }}
 									>
 										Reservar
 									</span>
@@ -44,6 +45,7 @@ export default function Navbar() {
 									<span
 										className="nav-link"
 										onClick={() => navigate("/reservas")}
+										style={{ cursor: "pointer" }}
 									>
 										Minhas Reservas
 									</span>
@@ -64,6 +66,7 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/nova")}
+													style={{ cursor: "pointer" }}
 												>
 													Cadastrar Vaga
 												</span>
@@ -72,6 +75,7 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/gerenciar")}
+													style={{ cursor: "pointer" }}
 												>
 													Visualizar Vagas
 												</span>
