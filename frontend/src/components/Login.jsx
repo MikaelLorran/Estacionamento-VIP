@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -11,11 +12,11 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			const response = await api.post("/login", { email, senha });
-			alert(`Bem-vindo, ${response.data.usuario.nome}`);
+			toast.success(`Bem-vindo, ${response.data.usuario.nome}`);
 			localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 			navigate("/painel");
 		} catch (error) {
-			alert(error.response?.data?.erro || "Erro ao fazer login");
+			toast.error("Erro ao fazer login", error);
 		}
 	};
 

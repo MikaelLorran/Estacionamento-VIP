@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export default function Reserve() {
 	const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -34,9 +35,9 @@ export default function Reserve() {
 				data,
 				inicio,
 			});
-			alert(response.data.mensagem);
+			toast.success(response.data.mensagem);
 		} catch (error) {
-			alert(error.response?.data?.erro || "Erro ao reservar a vaga");
+			toast.error("Erro ao reservar a vaga", error);
 		}
 	};
 

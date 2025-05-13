@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export default function Register() {
 	const [nome, setNome] = useState("");
@@ -10,9 +11,9 @@ export default function Register() {
 		e.preventDefault();
 		try {
 			await api.post("/registrar", { nome, email, senha });
-			alert("Usuário registrado com sucesso");
+			toast.success("Usuário registrado com sucesso!");
 		} catch (error) {
-			alert(error.response?.data?.erro || "Erro ao registrar");
+			toast.error("Erro ao registrar.", error);
 		}
 	};
 

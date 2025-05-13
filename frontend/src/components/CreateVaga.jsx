@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export default function CreateVaga() {
 	const [identificador, setIdentificador] = useState("");
@@ -11,12 +12,12 @@ export default function CreateVaga() {
 
 		try {
 			await api.post("/vagas", { identificador, descricao, status });
-			alert("Vaga cadastrada com sucesso!");
+			toast.success("Vaga cadastrada com sucesso!");
 			setIdentificador("");
 			setDescricao("");
 			setStatus("livre");
 		} catch (error) {
-			alert(error.response?.data?.erro || "Erro ao cadastrar vaga");
+			toast.error("Erro ao cadastrar vaga", error);
 		}
 	};
 

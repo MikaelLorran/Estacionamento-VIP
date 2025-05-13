@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -10,15 +10,15 @@ export default function Navbar() {
 	};
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav
+			className="navbar navbar-expand-lg shadow px-4 py-3"
+			style={{ backgroundColor: "#f2f2f2" }}
+		>
 			<div className="container-fluid">
-				<span
-					className="navbar-brand"
-					style={{ cursor: "pointer" }}
-					onClick={() => navigate("/")}
-				>
-					Estacionamento VIP
-				</span>
+				<Link className="navbar-brand" to="/painel">
+					<img src="/logo.png" alt="Logo" height="40" />
+				</Link>
+
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -66,7 +66,6 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/nova")}
-													style={{ cursor: "pointer" }}
 												>
 													Cadastrar Vaga
 												</span>
@@ -75,7 +74,6 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/gerenciar")}
-													style={{ cursor: "pointer" }}
 												>
 													Visualizar Vagas
 												</span>
@@ -90,14 +88,14 @@ export default function Navbar() {
 					<ul className="navbar-nav">
 						{usuario ? (
 							<>
-								<li className="nav-item">
-									<span className="nav-link text-light">
+								<li className="nav-item d-flex align-items-center">
+									<span className="nav-link text-dark">
 										Olá, {usuario.nome}
 									</span>
 								</li>
 								<li className="nav-item">
 									<button
-										className="btn btn-outline-light ms-2"
+										className="btn btn-outline-danger ms-2"
 										onClick={handleLogout}
 									>
 										Sair
@@ -108,7 +106,7 @@ export default function Navbar() {
 							<>
 								<li className="nav-item">
 									<button
-										className="btn btn-outline-light me-2"
+										className="btn btn-outline-secondary me-2"
 										onClick={() => navigate("/login")}
 									>
 										Login
@@ -116,7 +114,7 @@ export default function Navbar() {
 								</li>
 								<li className="nav-item">
 									<button
-										className="btn btn-outline-success"
+										className="btn btn-success"
 										onClick={() => navigate("/register")}
 									>
 										Registrar

@@ -10,6 +10,8 @@ import Reserve from "./components/Reserve";
 import ReservaList from "./components/ReservaList";
 import CreateVaga from "./components/CreateVaga";
 import GerenciarVagas from "./components/GerenciarVagas";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	return (
@@ -65,6 +67,8 @@ function App() {
 					}
 				/>
 			</Routes>
+
+			<ToastContainer position="top-center" autoClose={2000} />
 		</BrowserRouter>
 	);
 }

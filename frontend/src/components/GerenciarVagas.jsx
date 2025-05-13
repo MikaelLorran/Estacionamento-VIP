@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function GerenciarVagas() {
 	const [vagas, setVagas] = useState([]);
@@ -24,10 +25,10 @@ export default function GerenciarVagas() {
 		if (window.confirm("Tem certeza que deseja excluir esta vaga?")) {
 			try {
 				await api.delete(`/vagas/excluir/${id}`);
-				alert("Vaga excluída com sucesso");
-				carregarVagas(); // atualiza a lista
+				toast.success("Vaga excluída com sucesso");
+				carregarVagas();
 			} catch (error) {
-				alert(error.response?.data?.erro || "Erro ao excluir");
+				toast.error("Erro ao excluir", error);
 			}
 		}
 	};
@@ -152,13 +153,11 @@ export default function GerenciarVagas() {
 												`/vagas/editar/${vagaEditando.id}`,
 												vagaEditando
 											);
-											alert("Vaga atualizada com sucesso!");
+											toast.success("Vaga atualizada com sucesso!");
 											setModalAberto(false);
 											carregarVagas();
 										} catch (error) {
-											alert(
-												error.response?.data?.erro || "Erro ao atualizar vaga"
-											);
+											toast.error("Erro ao atualizar vaga", error);
 										}
 									}}
 								>

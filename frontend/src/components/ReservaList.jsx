@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export default function ReservaList() {
 	const [reservas, setReservas] = useState([]);
@@ -17,7 +18,7 @@ export default function ReservaList() {
 			);
 			setReservas(minhas);
 		} catch (error) {
-			console.error("Erro ao carregar reservas", error);
+			toast.error("Erro ao carregar reservas", error);
 		}
 	};
 
@@ -54,7 +55,7 @@ export default function ReservaList() {
 			fecharModal();
 			carregarReservas();
 		} catch (error) {
-			alert("Erro ao realizar a ação", error);
+			toast.error("Erro ao realizar a ação.", error);
 		}
 	};
 
