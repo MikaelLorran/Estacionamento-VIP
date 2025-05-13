@@ -81,4 +81,24 @@ class ReservaController {
         }
     }
 
+    public function encerrar($id) {
+        session_start();
+
+        if ($_SESSION['usuario']['id'] !== $this->reservaModel->obterUsuarioIdDaReserva($id)) {
+            http_response_code(403);
+            echo json_encode(['erro' => 'Você não pode encerrar reservas de outro usuário']);
+            return;
+        }
+
+        $sucesso = $this->reservaModel->encerrar($id);
+
+        if ($sucesso) {
+            echo json_encode(['mensagem' => 'Reserva encerrada com sucesso']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao encerrar reserva']);
+        }
+    }
+
+
 }

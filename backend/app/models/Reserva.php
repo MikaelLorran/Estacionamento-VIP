@@ -19,8 +19,34 @@ class Reserva {
         $stmt->bindParam(':data', $data);
         $stmt->bindParam(':inicio', $inicio);
 
-        return $stmt->execute();
-    }
+        $sucesso = $stmt->execute();
+
+            if ($sucesso) {
+                $this->chamarESP32Reservada($vaga_id);;
+            }
+
+            return $sucesso;
+        }
+
+        private function chamarESP32Reservada($vaga_id) {
+            $ips = [
+                1 => 'http://192.168.1.19/reservar',
+                // outros se tiver
+            ];
+
+            if (!isset($ips[$vaga_id])) return;
+
+            try {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+                curl_exec($ch);
+                curl_close($ch);
+            } catch (Exception $e) {}
+        }
+
+    
 
     public function listarComDetalhes() {
         $sql = "
@@ -37,7 +63,11 @@ class Reserva {
     }
 
     public function confirmar($reserva_id) {
-        $sql = "UPDATE reservas SET status = 'confirmada' WHERE id = :id";
+        $sql = "UPDATE reservas 
+        SET status = 'confirmada',
+            data_confirmacao = CURDATE(),
+            hora_confirmacao = CURTIME()
+        WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $reserva_id);
         $stmt->execute();
@@ -47,8 +77,43 @@ class Reserva {
                     SET status = 'ocupada' 
                     WHERE id = (SELECT vaga_id FROM reservas WHERE id = :id)";
         $stmt2 = $this->conn->prepare($sqlVaga);
-        return $stmt2->execute([':id' => $reserva_id]);
+        $stmt2->execute([':id' => $reserva_id]);
+
+        // Obtem o ID da vaga
+        $vaga_id = $this->obterVagaIdDaReserva($reserva_id);
+        $this->chamarESP32Confirmacao($vaga_id);
+
+        return true;
     }
+
+    private function obterVagaIdDaReserva($reserva_id) {
+        $sql = "SELECT vaga_id FROM reservas WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $reserva_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['vaga_id'] ?? null;
+    }
+
+    private function chamarESP32Confirmacao($vaga_id) {
+        $ips = [
+            1 => 'http://192.168.1.19/liberar',
+        ];
+
+        if (!isset($ips[$vaga_id])) return;
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+            curl_exec($ch);
+            curl_close($ch);
+        } catch (Exception $e) {
+
+        }
+    }
+
 
     public function obterUsuarioIdDaReserva($reserva_id) {
         $sql = "SELECT usuario_id FROM reservas WHERE id = :id";
@@ -70,8 +135,58 @@ class Reserva {
                     SET status = 'livre' 
                     WHERE id = (SELECT vaga_id FROM reservas WHERE id = :id)";
         $stmt2 = $this->conn->prepare($sqlVaga);
-        return $stmt2->execute([':id' => $reserva_id]);
+        $stmt2->execute([':id' => $reserva_id]);
+        $vaga_id = $this->obterVagaIdDaReserva($reserva_id);
+        $this->chamarESP32Livre($vaga_id);
+
+        return true;
     }
+
+    private function chamarESP32Livre($vaga_id) {
+        $ips = [
+            1 => 'http://192.168.1.19/livre',
+            // ...
+        ];
+
+        if (!isset($ips[$vaga_id])) return;
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+            curl_exec($ch);
+            curl_close($ch);
+        } catch (Exception $e) {}
+    }
+
+    public function encerrar($reserva_id) {
+        $sql = "UPDATE reservas 
+                SET status = 'encerrada',
+                    data_saida = CURDATE(),
+                    hora_saida = CURTIME()
+                WHERE id = :id AND status = 'confirmada'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $reserva_id);
+        $sucesso = $stmt->execute();
+
+        // Atualiza status da vaga para 'livre'
+        if ($sucesso) {
+            $sqlVaga = "UPDATE vagas 
+                        SET status = 'livre'
+                        WHERE id = (SELECT vaga_id FROM reservas WHERE id = :id)";
+            $stmt2 = $this->conn->prepare($sqlVaga);
+            $stmt2->execute([':id' => $reserva_id]);
+
+            // Comando para ESP
+            $vaga_id = $this->obterVagaIdDaReserva($reserva_id);
+            $this->chamarESP32Livre($vaga_id);
+        }
+
+        return $sucesso;
+    }
+
 
 
 }

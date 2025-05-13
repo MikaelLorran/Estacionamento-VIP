@@ -29,14 +29,14 @@ export default function Dashboard() {
 					Reservar Vaga
 				</button>
 				<button
-					className="btn btn-secondary"
+					className="btn btn-primary"
 					onClick={() => navigate("/reservas")}
 				>
 					Minhas Reservas
 				</button>
 				{usuario?.is_admin === 1 && (
 					<button
-						className="btn btn-warning"
+						className="btn btn-primary"
 						onClick={() => navigate("/vagas/nova")}
 					>
 						Cadastrar Vaga
@@ -44,7 +44,7 @@ export default function Dashboard() {
 				)}
 				{usuario?.is_admin === 1 && (
 					<button
-						className="btn btn-info"
+						className="btn btn-primary"
 						onClick={() => navigate("/vagas/gerenciar")}
 					>
 						Visualizar Vagas

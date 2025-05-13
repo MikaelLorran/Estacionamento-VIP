@@ -47,7 +47,10 @@ export default function ReservaList() {
 				await api.put(`/reservas/confirmar/${reservaSelecionada.id}`);
 			} else if (acao === "cancelar") {
 				await api.put(`/reservas/cancelar/${reservaSelecionada.id}`);
+			} else if (acao === "encerrar") {
+				await api.put(`/reservas/encerrar/${reservaSelecionada.id}`);
 			}
+
 			fecharModal();
 			carregarReservas();
 		} catch (error) {
@@ -105,12 +108,20 @@ export default function ReservaList() {
 												Confirmar
 											</button>
 											<button
-												className="btn btn-sm btn-danger"
+												className="btn btn-sm btn-danger me-2"
 												onClick={() => abrirModal(r, "cancelar")}
 											>
 												Cancelar
 											</button>
 										</>
+									)}
+									{r.status === "confirmada" && (
+										<button
+											className="btn btn-sm btn-warning"
+											onClick={() => abrirModal(r, "encerrar")}
+										>
+											Encerrar
+										</button>
 									)}
 								</td>
 							</tr>
@@ -128,8 +139,11 @@ export default function ReservaList() {
 								<h5 className="modal-title">
 									{acao === "confirmar"
 										? "Confirmar Reserva"
-										: "Cancelar Reserva"}
+										: acao === "cancelar"
+										? "Cancelar Reserva"
+										: "Encerrar Reserva"}
 								</h5>
+
 								<button
 									type="button"
 									className="btn-close"
@@ -140,7 +154,11 @@ export default function ReservaList() {
 								<p>
 									Você tem certeza que deseja{" "}
 									<strong>
-										{acao === "confirmar" ? "confirmar" : "cancelar"}
+										{acao === "confirmar"
+											? "confirmar"
+											: acao === "cancelar"
+											? "cancelar"
+											: "encerrar"}
 									</strong>{" "}
 									a reserva da vaga <strong>{reservaSelecionada.vaga}</strong>{" "}
 									no dia <strong>{reservaSelecionada.data}</strong> às{" "}

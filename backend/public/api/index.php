@@ -88,6 +88,12 @@ switch (true) {
             $reservaController->cancelar($matches[1]);
         }
         break;
+    
+    case preg_match('/\/reservas\/encerrar\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $reservaController->encerrar($matches[1]);
+        }
+        break;
 
 
     case str_ends_with($uri, '/reservas'):
