@@ -77,15 +77,24 @@ switch (true) {
         }
         break;
 
+    case preg_match('/\/reservas\/confirmar\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $reservaController->confirmar($matches[1]);
+        }
+        break;
+
+    case preg_match('/\/reservas\/cancelar\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $reservaController->cancelar($matches[1]);
+        }
+        break;
+
 
     case str_ends_with($uri, '/reservas'):
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservaController->listar();
         }
         break;
-
-
-
 
     default:
         http_response_code(404);

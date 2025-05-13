@@ -46,7 +46,6 @@ class UsuarioController
         $usuario = $this->usuarioModel->autenticar($dados['email'], $dados['senha']);
 
         if ($usuario) {
-            // Exemplo simples de sessão. Em produção, use JWT ou token seguro.
             session_start();
             $_SESSION['usuario'] = $usuario;
 
