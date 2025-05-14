@@ -66,6 +66,7 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/nova")}
+													style={{ cursor: "pointer" }}
 												>
 													Cadastrar Vaga
 												</span>
@@ -74,6 +75,7 @@ export default function Navbar() {
 												<span
 													className="dropdown-item"
 													onClick={() => navigate("/vagas/gerenciar")}
+													style={{ cursor: "pointer" }}
 												>
 													Visualizar Vagas
 												</span>

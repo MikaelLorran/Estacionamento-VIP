@@ -9,8 +9,10 @@ export default function Reserve() {
 	const [data, setData] = useState("");
 	const [inicio, setInicio] = useState("");
 	const [vagas, setVagas] = useState([]);
+	const [minhasReservas, setMinhasReservas] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [bloqueado, setBloqueado] = useState(false);
 
-	// Carrega as vagas disponíveis ao carregar o componente
 	useEffect(() => {
 		const fetchVagas = async () => {
 			try {
@@ -18,15 +20,28 @@ export default function Reserve() {
 				setVagas(response.data);
 			} catch (error) {
 				console.error("Erro ao carregar vagas:", error);
-				setVagas([]);
+			}
+		};
+
+		const fetchReservas = async () => {
+			try {
+				const response = await api.get("/reservas");
+				const minhas = response.data.filter(
+					(r) => Number(r.usuario_id) === Number(usuario.id)
+				);
+				setMinhasReservas(minhas);
+			} catch (error) {
+				console.error("Erro ao carregar reservas:", error);
 			}
 		};
 
 		fetchVagas();
-	}, []);
+		fetchReservas();
+	}, [usuario.id]);
 
 	const handleReserva = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 
 		try {
 			const response = await api.post("/reservar", {
@@ -36,10 +51,22 @@ export default function Reserve() {
 				inicio,
 			});
 			toast.success(response.data.mensagem);
+			setBloqueado(true);
+			setTimeout(() => {
+				window.location.reload();
+			}, 1500);
 		} catch (error) {
 			toast.error("Erro ao reservar a vaga", error);
+		} finally {
+			setLoading(false);
 		}
 	};
+
+	const reservaDuplicada = minhasReservas.some(
+		(r) => r.data === data && r.horario_inicio === inicio
+	);
+
+	const isBotaoDesativado = loading || reservaDuplicada || bloqueado;
 
 	return (
 		<form
@@ -85,8 +112,18 @@ export default function Reserve() {
 				/>
 			</div>
 
-			<button type="submit" className="btn btn-success w-100">
-				Confirmar Reserva
+			<button
+				type="submit"
+				className="btn btn-success w-100"
+				disabled={isBotaoDesativado}
+			>
+				{reservaDuplicada
+					? "Já reservado para esse horário"
+					: bloqueado
+					? "Reserva realizada - Aguarde..."
+					: loading
+					? "Aguarde..."
+					: "Confirmar Reserva"}
 			</button>
 		</form>
 	);

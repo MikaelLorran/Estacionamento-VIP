@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
@@ -7,6 +8,7 @@ export default function ReservaList() {
 	const [filtro, setFiltro] = useState("todas");
 	const [reservaSelecionada, setReservaSelecionada] = useState(null);
 	const [acao, setAcao] = useState("");
+	const [loadingModal, setLoadingModal] = useState(false);
 
 	const usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -38,24 +40,30 @@ export default function ReservaList() {
 	const fecharModal = () => {
 		setReservaSelecionada(null);
 		setAcao("");
+		setLoadingModal(false);
 	};
 
 	const confirmarAcao = async () => {
 		if (!reservaSelecionada) return;
+		setLoadingModal(true);
 
 		try {
 			if (acao === "confirmar") {
 				await api.put(`/reservas/confirmar/${reservaSelecionada.id}`);
+				toast.success("Reserva confirmada com sucesso!");
 			} else if (acao === "cancelar") {
 				await api.put(`/reservas/cancelar/${reservaSelecionada.id}`);
+				toast.success("Reserva cancelada com sucesso!");
 			} else if (acao === "encerrar") {
 				await api.put(`/reservas/encerrar/${reservaSelecionada.id}`);
+				toast.success("Reserva encerrada com sucesso!");
 			}
-
-			fecharModal();
-			carregarReservas();
 		} catch (error) {
 			toast.error("Erro ao realizar a ação.", error);
+		} finally {
+			setLoadingModal(false);
+			fecharModal();
+			carregarReservas();
 		}
 	};
 
@@ -80,7 +88,7 @@ export default function ReservaList() {
 			{filtradas.length === 0 ? (
 				<p>Nenhuma reserva encontrada.</p>
 			) : (
-				<table className="table table-striped">
+				<table className="table table-striped rounded shadow border">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -144,7 +152,6 @@ export default function ReservaList() {
 										? "Cancelar Reserva"
 										: "Encerrar Reserva"}
 								</h5>
-
 								<button
 									type="button"
 									className="btn-close"
@@ -170,8 +177,12 @@ export default function ReservaList() {
 								<button className="btn btn-secondary" onClick={fecharModal}>
 									Fechar
 								</button>
-								<button className="btn btn-primary" onClick={confirmarAcao}>
-									Sim, {acao}
+								<button
+									className="btn btn-primary"
+									onClick={confirmarAcao}
+									disabled={loadingModal}
+								>
+									{loadingModal ? "Processando..." : `Sim, ${acao}`}
 								</button>
 							</div>
 						</div>

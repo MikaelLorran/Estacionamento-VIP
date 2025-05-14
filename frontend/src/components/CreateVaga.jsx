@@ -1,23 +1,31 @@
 import { useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateVaga() {
 	const [identificador, setIdentificador] = useState("");
 	const [descricao, setDescricao] = useState("");
 	const [status, setStatus] = useState("livre");
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 
 		try {
 			await api.post("/vagas", { identificador, descricao, status });
 			toast.success("Vaga cadastrada com sucesso!");
-			setIdentificador("");
-			setDescricao("");
-			setStatus("livre");
+
+			// Redireciona após 1,5s
+			setTimeout(() => {
+				navigate("/vagas/gerenciar");
+			}, 1500);
 		} catch (error) {
 			toast.error("Erro ao cadastrar vaga", error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -61,11 +69,16 @@ export default function CreateVaga() {
 				>
 					<option value="livre">Livre</option>
 					<option value="ocupada">Ocupada</option>
+					<option value="reservada">Reservada</option>
 				</select>
 			</div>
 
-			<button type="submit" className="btn btn-primary w-100">
-				Cadastrar
+			<button
+				type="submit"
+				className="btn btn-primary w-100"
+				disabled={loading}
+			>
+				{loading ? "Aguarde..." : "Cadastrar"}
 			</button>
 		</form>
 	);
