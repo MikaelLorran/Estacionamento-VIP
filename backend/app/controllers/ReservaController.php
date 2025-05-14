@@ -9,6 +9,12 @@ class ReservaController {
         $this->reservaModel = new Reserva();
     }
 
+    private function iniciarSessaoSeNecessario() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
     public function reservar() {
         $dados = json_decode(file_get_contents("php://input"), true);
 
@@ -22,16 +28,11 @@ class ReservaController {
             $dados['usuario_id'],
             $dados['vaga_id'],
             $dados['data'],
-            $dados['inicio'],
+            $dados['inicio']
         );
 
         if ($sucesso) {
-            // Atualiza o status da vaga para "ocupada"
-            require_once __DIR__ . '/../models/Vaga.php';
-            $vagaModel = new Vaga();
-            $vagaModel->ocuparVaga($dados['vaga_id']);
-
-            echo json_encode(['mensagem' => 'Reserva realizada e vaga ocupada com sucesso']);
+            echo json_encode(['mensagem' => 'Reserva realizada com sucesso']);
         } else {
             http_response_code(500);
             echo json_encode(['erro' => 'Erro ao reservar vaga']);
@@ -44,7 +45,7 @@ class ReservaController {
     }
 
     public function confirmar($id) {
-        session_start();
+        $this->iniciarSessaoSeNecessario();
 
         if ($_SESSION['usuario']['id'] !== $this->reservaModel->obterUsuarioIdDaReserva($id)) {
             http_response_code(403);
@@ -63,7 +64,7 @@ class ReservaController {
     }
 
     public function cancelar($id) {
-        session_start();
+        $this->iniciarSessaoSeNecessario();
 
         if ($_SESSION['usuario']['id'] !== $this->reservaModel->obterUsuarioIdDaReserva($id)) {
             http_response_code(403);
@@ -82,7 +83,7 @@ class ReservaController {
     }
 
     public function encerrar($id) {
-        session_start();
+        $this->iniciarSessaoSeNecessario();
 
         if ($_SESSION['usuario']['id'] !== $this->reservaModel->obterUsuarioIdDaReserva($id)) {
             http_response_code(403);
@@ -99,6 +100,4 @@ class ReservaController {
             echo json_encode(['erro' => 'Erro ao encerrar reserva']);
         }
     }
-
-
 }
