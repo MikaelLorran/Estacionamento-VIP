@@ -30,7 +30,7 @@ class Reserva {
 
     private function chamarESP32Reservada($vaga_id) {
         $ips = [
-            1 => 'http://192.168.1.19/reservar',
+            1 => 'http://192.168.69.251/reservar',
         ];
 
         if (!isset($ips[$vaga_id])) return;
@@ -47,12 +47,19 @@ class Reserva {
 
     public function listarComDetalhes() {
         $sql = "
-            SELECT r.id, u.nome AS usuario, u.id AS usuario_id, v.identificador AS vaga,
-                r.data, r.horario_inicio, r.status
+            SELECT 
+                r.id AS reserva_id,
+                u.nome AS usuario,
+                u.id AS usuario_id,
+                v.identificador AS vaga,
+                r.data,
+                r.horario_inicio,
+                r.status
             FROM reservas r
             JOIN usuarios u ON r.usuario_id = u.id
             JOIN vagas v ON r.vaga_id = v.id
             ORDER BY r.data DESC, r.horario_inicio DESC
+
         ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -140,7 +147,7 @@ class Reserva {
 
     private function chamarESP32Confirmacao($vaga_id) {
         $ips = [
-            1 => 'http://192.168.1.19/liberar',
+            1 => 'http://192.168.69.251/liberar',
         ];
 
         if (!isset($ips[$vaga_id])) return;
@@ -157,7 +164,7 @@ class Reserva {
 
     private function chamarESP32Livre($vaga_id) {
         $ips = [
-            1 => 'http://192.168.1.19/livre',
+            1 => 'http://192.168.69.251/livre',
         ];
 
         if (!isset($ips[$vaga_id])) return;
@@ -174,7 +181,7 @@ class Reserva {
 
     private function chamarESP32Cancelar($vaga_id) {
         $ips = [
-            1 => 'http://192.168.1.19/cancelar',
+            1 => 'http://192.168.69.251/cancelar',
         ];
 
         if (!isset($ips[$vaga_id])) return;
@@ -188,4 +195,14 @@ class Reserva {
             curl_close($ch);
         } catch (Exception $e) {}
     }
+
+    public function obterUsuarioIdDaReserva($reserva_id) {
+        $sql = "SELECT usuario_id FROM reservas WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $reserva_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['usuario_id'] ?? null;
+    }
+
 }

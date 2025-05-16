@@ -49,14 +49,23 @@ export default function ReservaList() {
 
 		try {
 			if (acao === "confirmar") {
-				await api.put(`/reservas/confirmar/${reservaSelecionada.id}`);
+				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
+				console.log("Requisição para:", url);
+				await api.put(url);
 				toast.success("Reserva confirmada com sucesso!");
+				console.log("Reserva selecionada:", reservaSelecionada);
 			} else if (acao === "cancelar") {
-				await api.put(`/reservas/cancelar/${reservaSelecionada.id}`);
+				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
+				console.log("Requisição para:", url);
+				await api.put(url);
 				toast.success("Reserva cancelada com sucesso!");
+				console.log("Reserva selecionada:", reservaSelecionada);
 			} else if (acao === "encerrar") {
-				await api.put(`/reservas/encerrar/${reservaSelecionada.id}`);
+				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
+				console.log("Requisição para:", url);
+				await api.put(url);
 				toast.success("Reserva encerrada com sucesso!");
+				console.log("Reserva selecionada:", reservaSelecionada);
 			}
 		} catch (error) {
 			toast.error("Erro ao realizar a ação.", error);
@@ -101,8 +110,8 @@ export default function ReservaList() {
 					</thead>
 					<tbody>
 						{filtradas.map((r) => (
-							<tr key={r.id}>
-								<td>{r.id}</td>
+							<tr key={r.reserva_id}>
+								<td>{r.reserva_id}</td>
 								<td>{r.vaga}</td>
 								<td>{r.data}</td>
 								<td>{r.horario_inicio}</td>

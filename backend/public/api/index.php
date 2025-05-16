@@ -27,8 +27,6 @@ $usuarioController = new UsuarioController();
 $reservaController = new ReservaController();
 $vagaController = new VagaController();
 
-
-
 $rota = basename($uri);
 
 switch (true) {

@@ -66,6 +66,8 @@ class ReservaController {
     public function cancelar($id) {
         $this->iniciarSessaoSeNecessario();
 
+        error_log("[CANCELAR] Iniciando ação para reserva ID: $id");
+
         if ($_SESSION['usuario']['id'] !== $this->reservaModel->obterUsuarioIdDaReserva($id)) {
             http_response_code(403);
             echo json_encode(['erro' => 'Você não pode cancelar reservas de outro usuário']);
@@ -75,12 +77,15 @@ class ReservaController {
         $sucesso = $this->reservaModel->cancelar($id);
 
         if ($sucesso) {
+            error_log("[CANCELAR] Reserva cancelada com sucesso.");
             echo json_encode(['mensagem' => 'Reserva cancelada com sucesso']);
         } else {
+            error_log("[CANCELAR] Falha ao cancelar.");
             http_response_code(500);
             echo json_encode(['erro' => 'Erro ao cancelar reserva']);
         }
     }
+
 
     public function encerrar($id) {
         $this->iniciarSessaoSeNecessario();
