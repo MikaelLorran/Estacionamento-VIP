@@ -10,6 +10,7 @@ import Reserve from "./components/Reserve";
 import ReservaList from "./components/ReservaList";
 import CreateVaga from "./components/CreateVaga";
 import GerenciarVagas from "./components/GerenciarVagas";
+import Faturas from "./components/Faturas";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,6 +28,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Dashboard />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/faturas"
+					element={
+						<ProtectedRoute>
+							<Faturas />
 						</ProtectedRoute>
 					}
 				/>

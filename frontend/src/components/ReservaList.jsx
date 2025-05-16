@@ -50,22 +50,16 @@ export default function ReservaList() {
 		try {
 			if (acao === "confirmar") {
 				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
-				console.log("Requisição para:", url);
 				await api.put(url);
 				toast.success("Reserva confirmada com sucesso!");
-				console.log("Reserva selecionada:", reservaSelecionada);
 			} else if (acao === "cancelar") {
 				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
-				console.log("Requisição para:", url);
 				await api.put(url);
 				toast.success("Reserva cancelada com sucesso!");
-				console.log("Reserva selecionada:", reservaSelecionada);
 			} else if (acao === "encerrar") {
 				const url = `/reservas/${acao}/${reservaSelecionada.reserva_id}`;
-				console.log("Requisição para:", url);
 				await api.put(url);
 				toast.success("Reserva encerrada com sucesso!");
-				console.log("Reserva selecionada:", reservaSelecionada);
 			}
 		} catch (error) {
 			toast.error("Erro ao realizar a ação.", error);
@@ -181,6 +175,36 @@ export default function ReservaList() {
 									no dia <strong>{reservaSelecionada.data}</strong> às{" "}
 									<strong>{reservaSelecionada.horario_inicio}</strong>?
 								</p>
+
+								{acao === "cancelar" &&
+									(() => {
+										const agora = new Date();
+										const [ano, mes, dia] = reservaSelecionada.data.split("-");
+										const [hora, minuto] =
+											reservaSelecionada.horario_inicio.split(":");
+										const dataHoraReserva = new Date(
+											ano,
+											mes - 1,
+											dia,
+											hora,
+											minuto
+										);
+
+										const diferencaMinutos =
+											(dataHoraReserva - agora) / (1000 * 60);
+
+										if (diferencaMinutos > 0 && diferencaMinutos <= 60) {
+											return (
+												<div className="alert alert-warning mt-3">
+													Atenção: Falta menos de 1 hora para o início da
+													reserva. Uma multa de R$5,00 será adicionada à sua
+													conta em caso de cancelamento.
+												</div>
+											);
+										}
+
+										return null;
+									})()}
 							</div>
 							<div className="modal-footer">
 								<button className="btn btn-secondary" onClick={fecharModal}>

@@ -50,6 +50,15 @@ export default function Navbar() {
 										Minhas Reservas
 									</span>
 								</li>
+								<li className="nav-item">
+									<span
+										className="nav-link"
+										onClick={() => navigate("/faturas")}
+										style={{ cursor: "pointer" }}
+									>
+										Minhas Faturas
+									</span>
+								</li>
 								{usuario?.is_admin === 1 && (
 									<li className="nav-item dropdown">
 										<span

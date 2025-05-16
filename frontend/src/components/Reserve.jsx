@@ -43,6 +43,15 @@ export default function Reserve() {
 		e.preventDefault();
 		setLoading(true);
 
+		const agora = new Date();
+		const dataSelecionada = new Date(`${data}T${inicio}`);
+
+		if (dataSelecionada < agora) {
+			toast.error("A data e hora devem ser futuras.");
+			setLoading(false);
+			return;
+		}
+
 		try {
 			const response = await api.post("/reservar", {
 				usuario_id,
@@ -99,6 +108,7 @@ export default function Reserve() {
 					onChange={(e) => setData(e.target.value)}
 					className="form-control"
 					required
+					min={new Date().toISOString().split("T")[0]}
 				/>
 			</div>
 
