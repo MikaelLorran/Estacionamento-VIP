@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once __DIR__ . '/../../app/controllers/UsuarioController.php';
 require_once __DIR__ . '/../../app/controllers/ReservaController.php';
 require_once __DIR__ . '/../../app/controllers/VagaController.php';
+require_once __DIR__ . '/../../app/controllers/FaturaController.php'; 
 
 
 // Captura a URI da requisição
@@ -26,6 +27,7 @@ $uri = rtrim($uri, '/');
 $usuarioController = new UsuarioController();
 $reservaController = new ReservaController();
 $vagaController = new VagaController();
+$faturaController = new FaturaController();
 
 $rota = basename($uri);
 
@@ -93,10 +95,32 @@ switch (true) {
         }
         break;
 
-
     case str_ends_with($uri, '/reservas'):
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservaController->listar();
+        }
+        break;
+    
+        
+    case str_ends_with($uri, '/faturas'):
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            session_start();
+            $usuario_id = $_SESSION['usuario']['id'] ?? null;
+
+            if (!$usuario_id) {
+                http_response_code(401);
+                echo json_encode(['erro' => 'Usuário não autenticado']);
+                return;
+            }
+
+            $faturaController->listarPorUsuario($usuario_id);
+        }
+        break;
+
+
+    case preg_match('/\/faturas\/pagar\/(\d+)/', $uri, $matches) ? true : false:
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $faturaController->pagar($matches[1]);
         }
         break;
 

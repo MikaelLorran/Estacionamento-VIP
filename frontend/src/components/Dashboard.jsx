@@ -34,6 +34,12 @@ export default function Dashboard() {
 				>
 					Minhas Reservas
 				</button>
+				<button
+					className="btn btn-primary"
+					onClick={() => navigate("/faturas")}
+				>
+					Minhas Faturas
+				</button>
 				{usuario?.is_admin === 1 && (
 					<button
 						className="btn btn-primary"

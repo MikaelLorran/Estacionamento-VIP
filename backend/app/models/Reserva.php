@@ -110,6 +110,26 @@ class Reserva {
         return true;
     }
 
+    private function buscarReservaPorId($id) {
+        $sql = "SELECT * FROM reservas WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    private function calcularDuracaoEmHoras($data_inicio, $hora_inicio, $data_saida, $hora_saida) {
+        $inicio = new DateTime("$data_inicio $hora_inicio");
+        $fim = new DateTime("$data_saida $hora_saida");
+
+        $diferenca = $inicio->diff($fim);
+        $totalHoras = (($diferenca->days * 24) + $diferenca->h)- 1;
+
+        return $totalHoras;
+    }
+
+
 
     public function encerrar($reserva_id) {
         $sql = "UPDATE reservas 
@@ -131,6 +151,25 @@ class Reserva {
 
             $vaga_id = $this->obterVagaIdDaReserva($reserva_id);
             $this->chamarESP32Livre($vaga_id);
+
+            $reserva = $this->buscarReservaPorId($reserva_id);
+
+            $data_inicio = $reserva['data_confirmacao'];
+            $hora_inicio = $reserva['hora_confirmacao'];
+            $data_saida = $reserva['data_saida'];
+            $hora_saida = $reserva['hora_saida'];
+
+            $horas = $this->calcularDuracaoEmHoras($data_inicio, $hora_inicio, $data_saida, $hora_saida);
+            $valor = 20 + ($horas * 5); 
+
+            $sqlFatura = "INSERT INTO faturas (reserva_id, valor, status, data_geracao)
+                        VALUES (:reserva_id, :valor, 'pendente', NOW())";
+            $stmtFatura = $this->conn->prepare($sqlFatura);
+            $stmtFatura->execute([
+                ':reserva_id' => $reserva_id,
+                ':valor' => $valor
+            ]);
+
         }
 
         return $sucesso;
