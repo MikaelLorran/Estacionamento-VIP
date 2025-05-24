@@ -1,4 +1,4 @@
-# 🚗 Estacionamento VIP
+# 🚗 Estacionamento VIP - Find Stop
 
 Sistema de gerenciamento de estacionamento VIP, permitindo que usuários reservem vagas via website, com integração ao hardware ESP32 para liberação automática da cancela.
 
@@ -6,10 +6,13 @@ Sistema de gerenciamento de estacionamento VIP, permitindo que usuários reserve
 
 ## 📌 Funcionalidades
 
-- Autenticação de usuários (login)
-- Reserva de vagas via sistema web
-- Liberação da cancela através de ESP32
-- Painel administrativo (em breve)
+- Login e cadastro de usuários
+- Painel com listagem de vagas disponíveis
+- Reserva de vaga com horário e data
+- Confirmação e cancelamento de reservas
+- Encerramento de reserva com geração automática de fatura
+- Listagem de faturas com status e pagamento individual ou em lote
+- Integração com ESP32 para controle de LEDs, cancela e sinalização
 
 ---
 
@@ -17,63 +20,85 @@ Sistema de gerenciamento de estacionamento VIP, permitindo que usuários reserve
 
 **Backend:**
 
-- PHP (com padrão MVC)
-- MySQL (banco de dados)
-- PDO (conexão segura)
+- PHP
+- MySQL
+- PDO
+- CURL
 
 **Frontend:**
 
-- React (interface do usuário)
-
-**Outros:**
-
-- ESP32 (controle físico da cancela)
-- Git e GitHub para versionamento
+- React.js
+- Bootstrap
+- Axios
+- React Toastify
 
 ---
 
+## 📁 Estrutura do Projeto
+
+Estacionamento/
+├── backend/
+│ ├── app/
+│ │ ├── controllers/
+│ │ └── models/
+│ ├── core/
+│ └── public/api/
+├── frontend/
+│ └── src/
+│ ├── components/
+│ ├── pages/
+│ ├── services/
+│ └── App.jsx
+└── bd/
+└── banco.sql
+
 ## 🛠️ Instalação e Execução
 
-### 📁 1. Clone o repositório
+### 📁 1. Backend (PHP + MySQL)
+
+- Requisitos:
+
+  - PHP 8.x
+  - XAMPP ou Apache + MySQL
+
+- Passos:
+
+# Clone o repositório
 
 git clone https://github.com/MikaelLorran/Estacionamento-VIP.git
+
+# Acesse o diretório do backend
+
 cd estacionamento-vip
 
-### ⚙️ 2. Configure o ambiente
+# Importe o arquivo `banco.sql` no MySQL
 
-- Crie um arquivo .env dentro da pasta config/ com os seguintes dados:
+# Inicie o Apache e o MySQL no XAMPP
 
-  DB_HOST=localhost
-  DB_NAME=estacionamento_vip
-  DB_USER=root
-  DB_PASS=
+### ⚙️ 2. Frontend (React)
 
-### 🧰 3. Configure o banco de dados
+# Acesse o diretório do frontend
 
-- Importe o arquivo SQL com a estrutura das tabelas (ou use o script fornecido).
+cd Estacionamento/frontend
 
-### ▶️ 4. Inicie o servidor local
+# Instale as dependências
 
-- Utilize o XAMPP ou outro servidor PHP apontando para a pasta /public.
+npm install
 
-📂 Estrutura de Pastas
-estacionamento-vip/
-├── app/
-│ ├── controllers/
-│ ├── core/
-│ └── models/
-├── config/
-│ └── .env
-├── public/
-│ └── index.php
-├── .gitignore
-└── README.md
+# Rode o projeto
 
-🚧 Em desenvolvimento
+npm run dev
 
-- Validação de reservas em tempo real
-- Tela administrativa para controle de vagas
-- Histórico de reservas por usuário
+### 📦 3. Banco de Dados
+
+# Importe o arquivo SQL com a estrutura das tabelas.
+
+# Crie um arquivo .env dentro da pasta config/ com os seguintes dados:
+
+DB_HOST=localhost
+DB_NAME=estacionamento_vip
+DB_USER=root
+DB_PASS=
 
 👨‍💻 Autores
 

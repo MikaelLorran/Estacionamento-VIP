@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 
-const TEMPO_LIMITE = 1 * 10 * 1000;
+const TEMPO_LIMITE = 15 * 60 * 1000;
 
 export default function useAutoLogout() {
 	const navigate = useNavigate();
