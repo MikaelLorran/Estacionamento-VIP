@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function Faturas() {
+	useAutoLogout();
 	const [faturas, setFaturas] = useState([]);
 	const [filtro, setFiltro] = useState("todas");
 	const [modalAberto, setModalAberto] = useState(false);

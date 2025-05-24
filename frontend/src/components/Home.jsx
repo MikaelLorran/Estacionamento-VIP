@@ -5,7 +5,7 @@ export default function Home() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const usuario = JSON.parse(localStorage.getItem("usuario"));
+		const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 		if (usuario) {
 			navigate("/painel");
 		}

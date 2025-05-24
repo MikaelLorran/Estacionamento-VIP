@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function Reserve() {
-	const usuario = JSON.parse(localStorage.getItem("usuario"));
+	useAutoLogout();
+	const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 	const [usuario_id] = useState(usuario?.id || "");
 	const [vaga_id, setVagaId] = useState("");
 	const [data, setData] = useState("");

@@ -2,8 +2,10 @@ import { useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function CreateVaga() {
+	useAutoLogout();
 	const [identificador, setIdentificador] = useState("");
 	const [descricao, setDescricao] = useState("");
 	const [status, setStatus] = useState("livre");

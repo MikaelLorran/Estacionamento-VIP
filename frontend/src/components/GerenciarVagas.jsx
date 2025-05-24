@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function GerenciarVagas() {
+	useAutoLogout();
 	const [vagas, setVagas] = useState([]);
 	const [modalAberto, setModalAberto] = useState(false);
 	const [vagaEditando, setVagaEditando] = useState(null);

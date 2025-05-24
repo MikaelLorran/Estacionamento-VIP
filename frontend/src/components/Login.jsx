@@ -13,7 +13,7 @@ export default function Login() {
 		try {
 			const response = await api.post("/login", { email, senha });
 			toast.success(`Bem-vindo, ${response.data.usuario.nome}`);
-			localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
+			sessionStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 			navigate("/painel");
 		} catch (error) {
 			toast.error("Erro ao fazer login", error);

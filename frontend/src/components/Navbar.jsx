@@ -2,10 +2,10 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	const usuario = JSON.parse(localStorage.getItem("usuario"));
+	const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
 	const handleLogout = () => {
-		localStorage.removeItem("usuario");
+		sessionStorage.removeItem("usuario");
 		navigate("/login");
 	};
 

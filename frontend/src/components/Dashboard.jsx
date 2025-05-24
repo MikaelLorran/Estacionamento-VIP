@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function Dashboard() {
+	useAutoLogout();
 	const navigate = useNavigate();
-	const usuario = JSON.parse(localStorage.getItem("usuario"));
+	const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
 	useEffect(() => {
 		if (!usuario) navigate("/");
 	}, []);
 
 	const handleLogout = () => {
-		localStorage.removeItem("usuario");
+		sessionStorage.removeItem("usuario");
 		navigate("/");
 	};
 

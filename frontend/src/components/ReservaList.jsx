@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
+import useAutoLogout from "../utils/UseAutoLogout";
 
 export default function ReservaList() {
+	useAutoLogout();
 	const [reservas, setReservas] = useState([]);
 	const [filtro, setFiltro] = useState("todas");
 	const [reservaSelecionada, setReservaSelecionada] = useState(null);
@@ -11,7 +13,7 @@ export default function ReservaList() {
 	const [modalConfirmarAberto, setModalConfirmarAberto] = useState(false);
 	const [loadingModal, setLoadingModal] = useState(false);
 
-	const usuario = JSON.parse(localStorage.getItem("usuario"));
+	const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
 	const carregarReservas = async () => {
 		try {
