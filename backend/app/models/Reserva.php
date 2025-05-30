@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../core/Database.php';
+require_once __DIR__ . '/../core/MqttClientWrapper.php';
 
 class Reserva {
     private $conn;
@@ -28,21 +29,15 @@ class Reserva {
         return $sucesso;
     }
 
+    private function enviarParaMQTT($topico, $mensagem) {
+        $mqtt = new MqttClientWrapper();
+        $mqtt->publish($topico, $mensagem);
+    }
+
+
     private function chamarESP32Reservada($vaga_id) {
-        $ips = [
-            1 => 'http://192.168.69.251/reservar',
-        ];
-
-        if (!isset($ips[$vaga_id])) return;
-
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_exec($ch);
-            curl_close($ch);
-        } catch (Exception $e) {}
+        $topico = "estacionamento/vaga/$vaga_id";
+        $this->enviarParaMQTT($topico, "reservar");
     }
 
     public function listarComDetalhes() {
@@ -185,54 +180,18 @@ class Reserva {
     }
 
     private function chamarESP32Confirmacao($vaga_id) {
-        $ips = [
-            1 => 'http://192.168.69.251/liberar',
-        ];
-
-        if (!isset($ips[$vaga_id])) return;
-
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_exec($ch);
-            curl_close($ch);
-        } catch (Exception $e) {}
+        $topico = "estacionamento/vaga/$vaga_id";
+        $this->enviarParaMQTT($topico, "liberar");
     }
 
     private function chamarESP32Livre($vaga_id) {
-        $ips = [
-            1 => 'http://192.168.69.251/livre',
-        ];
-
-        if (!isset($ips[$vaga_id])) return;
-
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_exec($ch);
-            curl_close($ch);
-        } catch (Exception $e) {}
+        $topico = "estacionamento/vaga/$vaga_id";
+        $this->enviarParaMQTT($topico, "livre");
     }
 
     private function chamarESP32Cancelar($vaga_id) {
-        $ips = [
-            1 => 'http://192.168.69.251/cancelar',
-        ];
-
-        if (!isset($ips[$vaga_id])) return;
-
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $ips[$vaga_id]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_exec($ch);
-            curl_close($ch);
-        } catch (Exception $e) {}
+        $topico = "estacionamento/vaga/$vaga_id";
+        $this->enviarParaMQTT($topico, "cancelar");
     }
 
     public function obterUsuarioIdDaReserva($reserva_id) {

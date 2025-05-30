@@ -11,7 +11,6 @@ class Usuario
         $this->conn = Database::conectar();
     }
 
-    // Criar novo usuário
     public function criar($nome, $email, $senha)
     {
         $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
@@ -25,7 +24,6 @@ class Usuario
         return $stmt->execute();
     }
 
-    // Buscar usuário por email (para login)
     public function buscarPorEmail($email)
     {
         $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
@@ -36,7 +34,6 @@ class Usuario
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Verificar login
     public function autenticar($email, $senha)
     {
         $usuario = $this->buscarPorEmail($email);
