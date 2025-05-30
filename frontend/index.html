@@ -10,5 +10,40 @@
 	<body style="background-color: #f9f9f9">
 		<div id="root"></div>
 		<script type="module" src="/src/main.jsx"></script>
+		<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+		<script>
+			const options = {
+				username: "Esp32-A1",
+				password: "Esp123456",
+				reconnectPeriod: 1000,
+				connectTimeout: 30 * 1000,
+			};
+
+			const client = mqtt.connect(
+				"wss://4ad6efbc696f48f7a4453e5bbbed2774.s1.eu.hivemq.cloud:8884/mqtt",
+				options
+			);
+
+			client.on("connect", () => {
+				console.log("Conectado ao HiveMQ MQTT");
+				client.subscribe("estacionamento/logs", (err) => {
+					if (!err) {
+						console.log("Inscrito no tópico: estacionamento/logs");
+					} else {
+						console.error("Erro ao se inscrever no tópico:", err);
+					}
+				});
+			});
+
+			client.on("message", (topic, message) => {
+				if (topic === "estacionamento/logs") {
+					console.log("📡 [LOG ESP32] →", message.toString());
+				}
+			});
+
+			client.on("error", (error) => {
+				console.error("Erro na conexão MQTT:", error);
+			});
+		</script>
 	</body>
 </html>
