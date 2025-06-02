@@ -71,7 +71,9 @@ git clone https://github.com/MikaelLorran/Estacionamento-VIP.git
 
 cd estacionamento-vip
 
-# Importe o arquivo `banco.sql` no MySQL
+# Crie o banco de dados no MySQL
+
+Copie o script no arquivo banco.txt e cole no MySQL Workbench ou em outra ferramenta de sua preferência.
 
 # Inicie o Apache e o MySQL no XAMPP
 

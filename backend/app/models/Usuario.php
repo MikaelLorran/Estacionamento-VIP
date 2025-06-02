@@ -11,18 +11,23 @@ class Usuario
         $this->conn = Database::conectar();
     }
 
-    public function criar($nome, $email, $senha)
+    public function criar($nome, $email, $senha, $cpf, $telefone)
     {
-        $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
+        $sql = "INSERT INTO usuarios (nome, email, senha, CPF, telefone)
+                VALUES (:nome, :email, :senha, :cpf, :telefone)";
+
         $stmt = $this->conn->prepare($sql);
         $senhaHash = password_hash($senha, PASSWORD_BCRYPT);
 
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':senha', $senhaHash);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->bindParam(':telefone', $telefone);
 
         return $stmt->execute();
     }
+
 
     public function buscarPorEmail($email)
     {

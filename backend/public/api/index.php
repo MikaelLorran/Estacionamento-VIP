@@ -124,6 +124,12 @@ switch (true) {
         }
         break;
 
+    case str_ends_with($uri, '/verificar-email'):
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $usuarioController->verificarEmail();
+    }
+    break;
+
     default:
         http_response_code(404);
         echo json_encode(['erro' => 'Rota não encontrada']);

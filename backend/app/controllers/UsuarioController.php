@@ -11,18 +11,25 @@ class UsuarioController
         $this->usuarioModel = new Usuario();
     }
 
-    // Registro de novo usuário
-    public function registrar()
-    {
+    public function registrar(){
         $dados = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($dados['nome'], $dados['email'], $dados['senha'])) {
-            http_response_code(400);
-            echo json_encode(['erro' => 'Dados incompletos']);
-            return;
+        $camposObrigatorios = ['nome', 'email', 'senha', 'cpf', 'telefone'];
+        foreach ($camposObrigatorios as $campo) {
+            if (empty($dados[$campo])) {
+                http_response_code(400);
+                echo json_encode(['erro' => "Campo '$campo' é obrigatório"]);
+                return;
+            }
         }
 
-        $sucesso = $this->usuarioModel->criar($dados['nome'], $dados['email'], $dados['senha']);
+          $sucesso = $this->usuarioModel->criar(
+            $dados['nome'],
+            $dados['email'],
+            $dados['senha'],
+            $dados['cpf'],
+            $dados['telefone']
+        );
 
         if ($sucesso) {
             echo json_encode(['mensagem' => 'Usuário registrado com sucesso']);
@@ -32,9 +39,8 @@ class UsuarioController
         }
     }
 
-    // Login de usuário
-    public function login()
-    {
+
+    public function login(){
         $dados = json_decode(file_get_contents("php://input"), true);
 
         if (!isset($dados['email'], $dados['senha'])) {
@@ -63,4 +69,24 @@ class UsuarioController
             echo json_encode(['erro' => 'Credenciais inválidas']);
         }
     }
+
+    public function verificarEmail()
+    {
+        $dados = json_decode(file_get_contents("php://input"), true);
+
+        if (!isset($dados['email'])) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'E-mail não fornecido']);
+            return;
+        }
+
+        $usuario = $this->usuarioModel->buscarPorEmail($dados['email']);
+
+        echo json_encode([
+            'mensagem' => 'Verificação realizada',
+            'disponivel' => $usuario ? false : true
+        ]);
+    }
+
+
 }
