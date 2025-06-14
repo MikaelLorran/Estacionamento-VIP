@@ -117,7 +117,7 @@ export default function Navbar() {
 							<>
 								<li className="nav-item">
 									<button
-										className="btn btn-outline-secondary me-2"
+										className="btn btn-outline-secondary m-2"
 										onClick={() => navigate("/login")}
 									>
 										Login

@@ -47,7 +47,7 @@ export default function Register() {
 
 		try {
 			const verifica = await api.post(
-				"http://localhost/Estacionamento/backend/public/api/usuario/verificar-email",
+				"http://findspot.site/api/usuario/verificar-email",
 				{ email: form.email }
 			);
 
@@ -56,10 +56,7 @@ export default function Register() {
 				return;
 			}
 
-			await api.post(
-				"http://localhost/Estacionamento/backend/public/api/usuario/registrar",
-				form
-			);
+			await api.post("http://findspot.site/api/usuario/registrar", form);
 			toast.success("Cadastro realizado com sucesso!");
 		} catch (error) {
 			toast.error("Erro ao cadastrar usuário.", error);

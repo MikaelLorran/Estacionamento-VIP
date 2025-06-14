@@ -21,13 +21,13 @@ class Reserva {
         $stmt->bindParam(':inicio', $inicio);
 
         $sucesso = $stmt->execute();
-
-        if ($sucesso) {
-            $this->chamarESP32Reservada($vaga_id);
-        }
-
-        return $sucesso;
+        
+        $this->chamarESP32Reservada($vaga_id);
+        
+  
+        return true;
     }
+    
 
     private function enviarParaMQTT($topico, $mensagem) {
         $mqtt = new MqttClientWrapper();
