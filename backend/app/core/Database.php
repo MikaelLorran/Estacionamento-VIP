@@ -4,11 +4,13 @@ class Database {
 
     public static function conectar() {
         if (!isset(self::$conn)) {
+            $env = parse_ini_file(__DIR__ . '/../../config/.env');
+
             try {
                 self::$conn = new PDO(
-                    'mysql:host=localhost;dbname=u558645722_Findspot;charset=utf8mb4',
-                    'u558645722_Findspot123',
-                    'Findspot123'
+                    'mysql:host=' . $env['DB_HOST'] . ';dbname=' . $env['DB_NAME'] . ';charset=utf8mb4',
+                    $env['DB_USER'],
+                    $env['DB_PASS']
                 );
 
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

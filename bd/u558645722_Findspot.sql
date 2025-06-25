@@ -1,10 +1,10 @@
 --
--- Banco de dados: `u558645722_Findspot`
+-- Banco de dados: `u558645722_findspot`
 --
 
-DROP DATABASE IF EXISTS u558645722_Findspot;
-CREATE DATABASE u558645722_Findspot;
-USE u558645722_Findspot;
+DROP DATABASE IF EXISTS u558645722_findspot;
+CREATE DATABASE u558645722_findspot;
+USE u558645722_findspot;
 
 -- --------------------------------------------------------
 
@@ -162,3 +162,7 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO usuarios (nome, email, cpf, telefone, senha, is_admin) 
+  VALUES ('Administrador', 'admin@findspot.com', '000000000', '99999999999', '$2y$10$18bqoPabp32iBVuu7OqOPuzWK1k9zpuEUK1kJRdmyJQsCavk.Yv36', 1);
+
