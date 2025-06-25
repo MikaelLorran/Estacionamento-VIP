@@ -54,7 +54,7 @@ Estacionamento/
 
 ## 🛠️ Instalação e Execução
 
-### 📁 1. Backend (PHP + MySQL)
+## 📁 1. Backend (PHP + MySQL)
 
 - Requisitos:
 
@@ -63,44 +63,40 @@ Estacionamento/
 
 - Passos:
 
-# Clone o repositório
+### 1.1. Clone o repositório
 
 git clone https://github.com/MikaelLorran/Estacionamento-VIP.git
 
-# Acesse o diretório do backend
+### 1.2. Acesse o diretório do backend
 
 cd estacionamento-vip
 
-# Crie o banco de dados no MySQL
+### 1.3. Inicie o Apache no XAMPP
 
-Copie o script no arquivo banco.txt e cole no MySQL Workbench ou em outra ferramenta de sua preferência.
+## ⚙️ 2. Frontend (React)
 
-# Inicie o Apache e o MySQL no XAMPP
-
-### ⚙️ 2. Frontend (React)
-
-# Acesse o diretório do frontend
+### 2.1. Acesse o diretório do frontend
 
 cd Estacionamento/frontend
 
-# Instale as dependências
+### 2.2. Instale as dependências
 
 npm install
 
-# Rode o projeto
+### 2.3. Rode o projeto
 
 npm run dev
 
-### 📦 3. Banco de Dados
+## 📦 3. Banco de Dados
 
-# Importe o arquivo SQL com a estrutura das tabelas.
+### Importe o arquivo 'u558645722_findspot.sql' dentro da pasta bd no MySQL Workbench.
 
-# Crie um arquivo .env dentro da pasta config/ com os seguintes dados:
+### Crie um arquivo .env dentro da pasta config/ com os seguintes dados:
 
 DB_HOST=localhost
-DB_NAME=estacionamento_vip
-DB_USER=root
-DB_PASS=
+DB_NAME=u558645722_findspot
+DB_USER='seu usuário'
+DB_PASS='sua sehna'
 
 👨‍💻 Autores
 
@@ -109,6 +105,3 @@ DB_PASS=
 - Giovanne
 - Felipe
 - João Eduardo
-
-📝 Licença
-Este projeto está sob a licença MIT.
